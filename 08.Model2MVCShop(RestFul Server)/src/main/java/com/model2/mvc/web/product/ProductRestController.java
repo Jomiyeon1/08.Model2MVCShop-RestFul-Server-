@@ -24,7 +24,7 @@ public class ProductRestController {
 	/// Field
 	@Autowired
 	@Qualifier("productServiceImpl")
-	private ProductService productservice;
+	private ProductService productService;
 
 	public ProductRestController() {
 		System.out.println(this.getClass());
@@ -41,27 +41,24 @@ public class ProductRestController {
 
 	// @RequestMapping("/addProduct.do")
 	@RequestMapping(value = "json/addProduct", method = RequestMethod.POST)
-	public String addProduct(@ModelAttribute("product") Product product) throws Exception {
+	public Product addProduct(@RequestBody Product product) throws Exception {
 
 		System.out.println("/product/json/addProduct : POST");
-		// Business Logic
-		productservice.addProduct(product);
+		
+		 productService.addProduct(product);
 
-		return "forward:/product/addView.jsp";
+		return product;
 
 	}
 	///
 	//*************get
-	@RequestMapping(value = "json/getProduct", method = RequestMethod.GET)
-	public String getProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
+	@RequestMapping(value = "json/getProduct/{prodNo}", method = RequestMethod.GET)
+	public Product getProduct(@PathVariable int prodNo) throws Exception {
 
 		System.out.println("/product/getProduct : GET ");
 
-		Product product = productservice.getProduct(prodNo);
-
-		model.addAttribute("product", product);
-
-		return "forward:/product/getProduct.jsp";
+		
+		return productService.getProduct(prodNo);
 
 	}
 }
