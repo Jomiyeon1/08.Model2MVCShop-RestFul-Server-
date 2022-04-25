@@ -21,7 +21,7 @@
 	<insert id = "addProduct" parameterType="product">
 	 INSERT
       INTO product 
-      VALUES (seq_product_prod_no.NEXTVAL, #{prodName}, #{prodDetail}, REPLACE(#{manuDate},'-',''), #{price}, #{fileName}, SYSDATE)
+      VALUES (seq_product_prod_no.NEXTVAL, #{prodName:VARCHAR}, #{prodDetail:VARCHAR}, REPLACE(#{manuDate:VARCHAR},'-',''), #{price:NUMERIC}, #{fileName:VARCHAR}, SYSDATE)
 	</insert>
 	
 	<!-- SQL : SELECT ONE -->

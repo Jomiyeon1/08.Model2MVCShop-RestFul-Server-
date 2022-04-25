@@ -18,13 +18,19 @@ import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductService;
 
-@Controller
+@RestController
 @RequestMapping("/product/*")
 public class ProductRestController {
 	/// Field
 	@Autowired
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
+	
+	@Value("#{commonProperties['pageUnit']}")
+	int pageUnit;
+	
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
 
 	public ProductRestController() {
 		System.out.println(this.getClass());
@@ -44,8 +50,9 @@ public class ProductRestController {
 	public Product addProduct(@RequestBody Product product) throws Exception {
 
 		System.out.println("/product/json/addProduct : POST");
-		
+		System.out.println("add => "+product);
 		 productService.addProduct(product);
+		
 
 		return product;
 
