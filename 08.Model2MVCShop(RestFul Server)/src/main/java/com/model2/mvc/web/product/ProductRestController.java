@@ -68,4 +68,5 @@ public class ProductRestController {
 		return productService.getProduct(prodNo);
 
 	}
+	
 }
