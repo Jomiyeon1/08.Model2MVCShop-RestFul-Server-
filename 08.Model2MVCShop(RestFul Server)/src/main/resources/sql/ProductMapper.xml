@@ -37,11 +37,11 @@
 	   	UPDATE product
 	   	<set>
 	   		prod_no			= #{prodNo},
-	   		prod_name 		= #{prodName},
-	   		prod_detail		= #{prodDetail},
-	   		manufacture_day	= REPLACE(#{manuDate},'-',''),
-	   		price			= #{price},
-	   		image_file		= #{fileName}
+	   		prod_name 		= #{prodName:VARCHAR},
+	   		prod_detail		= #{prodDetail:VARCHAR},
+	   		manufacture_day	= REPLACE(#{manuDate:VARCHAR},'-',''),
+	   		price			= #{price:NUMERIC},
+	   		image_file		= #{fileName:VARCHAR}
 	   	</set>
 	   	WHERE prod_no = #{prodNo}
 	 </update>
