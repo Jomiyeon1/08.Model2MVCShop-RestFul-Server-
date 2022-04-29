@@ -1,5 +1,9 @@
 package com.model2.mvc.web.product;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -90,4 +94,23 @@ public class ProductRestController {
 		 return product;
 	}
 	
+	@RequestMapping(value = "json/listProduct")
+	public Map listProduct(@RequestBody Search search, HttpServletRequest request) throws Exception {
+
+		System.out.println("/product/listProduct : GET / POST");
+
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+
+		Map<String, Object> map = productService.getProductList(search);
+
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+				pageSize);
+		System.out.println(resultPage);
+
+
+		return map;
+	}
 }

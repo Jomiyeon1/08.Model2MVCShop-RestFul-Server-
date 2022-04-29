@@ -62,4 +62,27 @@ public class UserRestController {
 		
 		return dbUser;
 	}
+	
+	@RequestMapping(value = "json/addUser", method=RequestMethod.GET)
+	public String addUser() throws Exception {
+		
+		System.out.println("user/json/addUser : GET");
+		
+		return "redirect:/user/addUserView.jsp";
+		
+	}
+	
+	@RequestMapping(value = "json/addUser", method=RequestMethod.POST)
+	public User addUser(@RequestBody User user) throws Exception{
+		System.out.println("user/json/addUser : POST");
+		 userService.addUser(user);
+		 return user;
+	}
+	
+	@RequestMapping(value = "json/updateUser", method=RequestMethod.GET)
+	public User updateUser(@PathVariable String userId) throws Exception{
+		
+		return userService.getUser(userId);
+	}
+	
 }
