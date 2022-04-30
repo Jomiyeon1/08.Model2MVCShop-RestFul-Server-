@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.user.UserService;
 
@@ -37,6 +38,11 @@ public class UserRestController {
 	public UserRestController(){
 		System.out.println(this.getClass());
 	}
+	
+	@Value("#{commonProperties['pageUnit']}")
+	int pageUnit;
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
 	
 	@RequestMapping( value="json/getUser/{userId}", method=RequestMethod.GET )
 	public User getUser( @PathVariable String userId ) throws Exception{
@@ -79,10 +85,41 @@ public class UserRestController {
 		 return user;
 	}
 	
-	@RequestMapping(value = "json/updateUser", method=RequestMethod.GET)
+	@RequestMapping(value = "json/updateUser/{userId}", method=RequestMethod.GET)
 	public User updateUser(@PathVariable String userId) throws Exception{
 		
 		return userService.getUser(userId);
 	}
+	
+	@RequestMapping(value = "json/updateUser", method = RequestMethod.POST)
+	public User updateUser(@RequestBody User user) throws Exception {
+		System.out.println("/user/updateuser : POST");
+		
+		userService.updateUser(user);
+		
+		return user;
+	}
+	
+	@RequestMapping(value = "json/listUser")
+	public Map listProduct(@RequestBody Search search, HttpServletRequest request) throws Exception {
+
+System.out.println("/user/listUser : GET / POST");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		// Business logic ผ๖วเ
+		Map<String , Object> map=userService.getUserList(search);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+
+
+		return map;
+	}
+	
+	
 	
 }
